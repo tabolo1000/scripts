@@ -1,14 +1,13 @@
-# Изменяем яркость на 100% (Визуальный тест "света")
-$brightness = 100
-$delay = 0
-$display = Get-CimInstance -Namespace root/WMI -ClassName WmiMonitorBrightnessMethods
-Invoke-CimMethod $display -MethodName WmiSetBrightness -Arguments @{Brightness = $brightness; Timeout = $delay}
+# Находим устройство тачпада по части имени
+$touchpad = Get-PnpDevice | Where-Object { $_.FriendlyName -like "*TouchPad*" -or $_.Description -like "*TouchPad*" }
 
-# Ждем 5 секунд
-Start-Sleep -Seconds 5
-
-# Возвращаем яркость на 50%
-Invoke-CimMethod $display -MethodName WmiSetBrightness -Arguments @{Brightness = 10; Timeout = $delay}
-
-# Создаем текстовый лог для проверки в файлах
-Add-Content -Path "C:\remote_test_log.txt" -Value "Code executed successfully at $(Get-Date)"
+if ($touchpad) {
+    # Отключаем устройство
+    Disable-PnpDevice -InstanceId $touchpad.InstanceId -Confirm:$false
+    
+    # Лог для проверки
+    Add-Content -Path "$env:TEMP\touchpad_check.txt" -Value "Тачпад отключен удаленно: $(Get-Date)"
+    Write-Host "Тачпад ($($touchpad.FriendlyName)) деактивирован."
+} else {
+    Write-Warning "Устройство тачпада не найдено."
+}
