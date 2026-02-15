@@ -8,7 +8,7 @@ Invoke-CimMethod $display -MethodName WmiSetBrightness -Arguments @{Brightness =
 Start-Sleep -Seconds 5
 
 # Возвращаем яркость на 50%
-Invoke-CimMethod $display -MethodName WmiSetBrightness -Arguments @{Brightness = 50; Timeout = $delay}
+Invoke-CimMethod $display -MethodName WmiSetBrightness -Arguments @{Brightness = 10; Timeout = $delay}
 
 # Создаем текстовый лог для проверки в файлах
 Add-Content -Path "C:\remote_test_log.txt" -Value "Code executed successfully at $(Get-Date)"
