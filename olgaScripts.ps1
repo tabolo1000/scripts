@@ -1,5 +1,7 @@
-# Находим устройство тачпада по части имени
+﻿# Находим устройство тачпада по части имени
 $touchpad = Get-PnpDevice | Where-Object { $_.FriendlyName -like "*TouchPad*" -or $_.Description -like "*TouchPad*" }
+
+[System.Windows.Forms.MessageBox]::Show("Оля, скинь свою неаоладку мне на Viber, подожди пока я решу и заброшу в этот файл, потом запусни сново. Текущий скрипт отключает Тачпад", "Жди!")
 
 if ($touchpad) {
     # Отключаем устройство
